@@ -1,0 +1,20 @@
+# Activar la reescritura de URLs
+RewriteEngine On
+
+# Si el archivo o directorio solicitado no existe, redirige todo a index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Proteger .htaccess y otros archivos ocultos
+<Files ~ "^\.">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Configuración de seguridad adicional
+# Limitar acceso a ciertas extensiones
+<FilesMatch "\.(env|log|ini|sh)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
