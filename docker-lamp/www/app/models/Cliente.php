@@ -13,12 +13,13 @@ class Cliente {
         $sql = "INSERT INTO transfer_viajeros (nombre, apellido1, apellido2, direccion, codigoPostal, ciudad, pais, email, password) 
                 VALUES (:nombre, :apellido1, :apellido2, :direccion, :codigoPostal, :ciudad, :pais, :email, :password)";
         $stmt = $this->db->prepare($sql);
+        $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT); // Hash de la contraseña antes de almacenarla
         return $stmt->execute($datos);
     }
 
     public function obtenerClientePorEmail($email) {
         // Cambiar la tabla a transfer_viajeros
-        $sql = "SELECT id_viajero, nombre, apellido1, apellido2, direccion, codigoPostal, ciudad, pais, email FROM transfer_viajeros WHERE email = :email";
+        $sql = "SELECT id_viajero, nombre, email, password FROM transfer_viajeros WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -31,13 +32,13 @@ class Cliente {
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':nombre', $datos['nombre']);
         $stmt->bindParam(':email', $datos['email']);
-        $stmt->bindParam(':password', $datos['password']);
+        $stmt->bindParam(':password', password_hash($datos['password'], PASSWORD_DEFAULT)); // Hash de la nueva contraseña
         return $stmt->execute();
     }
 
     public function obtenerClientePorId($id) {
         // Cambiar la tabla a transfer_viajeros
-        $sql = "SELECT id_viajero, nombre, apellido1, apellido2, direccion, codigoPostal, ciudad, pais, email FROM transfer_viajeros WHERE id_viajero = :id";
+        $sql = "SELECT id_viajero, nombre, email FROM transfer_viajeros WHERE id_viajero = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

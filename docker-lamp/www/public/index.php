@@ -54,13 +54,13 @@ switch ($uri) {
         break;
 
     case '/cliente/login':
-        if ($method === 'POST') {
-            $controller = new ClienteController();
-            $controller->login($_POST);
-        } else {
-            include BASE_PATH . '/app/views/clientes/login.php';
-        }
-        break;
+    if ($method === 'POST') {
+        $controller = new ClienteController();
+        $controller->login($_POST);
+    } else {
+        include BASE_PATH . '/app/views/clientes/login.php';
+    }
+    break;
 
     case '/cliente/registrar':
         if ($method === 'POST') {
