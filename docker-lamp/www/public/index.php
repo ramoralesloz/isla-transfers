@@ -40,18 +40,16 @@ switch ($uri) {
         }
         break;
 
-    case '/reserva/listar':
-        if (isset($_SESSION['cliente_id']) && $_SESSION['tipo_cliente'] === 'particular') {
-            $controller = new ReservaController();
-            $reservas = $controller->listarReservas();
-            if (!empty($reservas)) {
-                include BASE_PATH . '/app/views/reservas/listar.php';
+        case '/reserva/listar':
+            if (isset($_SESSION['cliente_id']) && $_SESSION['tipo_cliente'] === 'particular') {
+                $controller = new ReservaController();
+                $reservas = $controller->listarReservas(); // Almacenar las reservas devueltas por el método
+                include BASE_PATH . '/app/views/reservas/listar.php'; // Incluir la vista aquí
+            } else {
+                header('Location: /cliente/login');
+                exit();
             }
-        } else {
-            header('Location: /cliente/login');
-            exit();
-        }
-        break;
+            break;
 
     case '/cliente/login':
     if ($method === 'POST') {
@@ -148,7 +146,15 @@ switch ($uri) {
             exit();
         }
         break;
-
+        case '/reserva/eliminar':
+            if ($method === 'GET' && isset($_GET['id'])) {
+                $controller = new ReservaController();
+                $controller->eliminarReserva($_GET['id']); 
+            } else {
+                http_response_code(400);
+                echo "<h1>Solicitud inválida</h1>";
+            }
+            break;
     default:
         http_response_code(404);
         echo "<h1>Página no encontrada</h1>";

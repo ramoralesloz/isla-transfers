@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Reservas</title>
     <link rel="stylesheet" href="/public/css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'montserrat', sans-serif;
             background-color: #f5f5f5;
             text-align: center;
             padding: 2em;
@@ -27,7 +27,7 @@
             padding: 2em;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 800px;
             margin: 2em auto;
             text-align: left;
         }
@@ -38,6 +38,15 @@
             border-radius: 5px;
             margin-bottom: 1em;
             border: 1px solid #ccc;
+        }
+
+        .reserva p {
+            margin: 0.5em 0;
+        }
+
+        .reserva h3 {
+            color: #007bff;
+            margin-bottom: 0.5em;
         }
 
         button {
@@ -55,6 +64,11 @@
             background-color: #0056b3;
         }
 
+        button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
         .volver-menu {
             margin-top: 2em;
         }
@@ -68,9 +82,24 @@
     <div class="reservas">
         <?php if (!empty($reservas) && is_array($reservas)): ?>
             <?php foreach ($reservas as $reserva): ?>
-                <!-- Aquí el código para mostrar cada reserva -->
                 <div class="reserva">
-                    <p>Reserva: <?= htmlspecialchars($reserva['localizador']) ?></p>
+                    <h3>Reserva: <?= htmlspecialchars($reserva['localizador']) ?></h3>
+                    <p><strong>Hotel:</strong> <?= htmlspecialchars($reserva['id_hotel']) ?></p>
+                    <p><strong>Fecha de Reserva:</strong> <?= htmlspecialchars($reserva['fecha_reserva']) ?></p>
+                    <p><strong>Fecha de Entrada:</strong> <?= htmlspecialchars($reserva['fecha_entrada']) ?> <?= htmlspecialchars($reserva['hora_entrada']) ?></p>
+
+                    <!-- Botón de Cancelar con verificación de 48 horas -->
+                    <?php if ($reserva['cancelable']): ?>
+                        <a href="/reserva/eliminar?id=<?= urlencode($reserva['id_reserva']) ?>">
+                            <button>Cancelar Reserva</button>
+                        </a>
+                        <a href="/reserva/modificar?id=<?= urlencode($reserva['id_reserva']) ?>">
+                            <button>Modificar Reserva</button>
+                        </a>
+                    <?php else: ?>
+                        <button disabled>Cancelar no disponible (menos de 48 horas)</button>
+                        <button disabled>Modificar no disponible (menos de 48 horas)</button>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
@@ -85,5 +114,3 @@
     </div>
 </body>
 </html>
-
-

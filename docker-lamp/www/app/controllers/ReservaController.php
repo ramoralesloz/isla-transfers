@@ -22,11 +22,26 @@ class ReservaController {
     }
 
     public function listarReservas() {
+        // Obtiene todas las reservas desde el modelo
         $reservas = $this->reservaModel->obtenerTodasLasReservas();
-        include BASE_PATH . '/app/views/reservas/listar.php';
+    
+        // Calcular el tiempo restante para cada reserva y establecer la clave 'cancelable'
+        foreach ($reservas as &$reserva) {
+            $fechaReserva = new DateTime($reserva['fecha_entrada'] . ' ' . ($reserva['hora_entrada'] ?? '00:00:00'));
+            $fechaActual = new DateTime();
+            $intervalo = $fechaActual->diff($fechaReserva);
+            $horasRestantes = ($intervalo->days * 24) + $intervalo->h;
+    
+            // Si faltan menos de 48 horas, marcar la reserva como "no cancelable/modificable"
+            $reserva['cancelable'] = $horasRestantes >= 48;
+        }
+    
+        // Retorna las reservas en lugar de incluir la vista
+        return $reservas;
     }
     
-
+    
+    
     public function modificarReserva($id, $datos) {
         if ($this->reservaModel->modificarReserva($id, $datos)) {
             $_SESSION['mensaje_exito'] = "Reserva modificada con éxito";
@@ -38,6 +53,7 @@ class ReservaController {
     }
 
     public function eliminarReserva($id) {
+        // Llamar al método eliminarReserva del modelo
         if ($this->reservaModel->eliminarReserva($id)) {
             $_SESSION['mensaje_exito'] = "Reserva eliminada con éxito";
         } else {

@@ -26,15 +26,29 @@ class Cliente {
     }
 
     public function modificarCliente($id, $datos) {
-        // Cambiar la tabla a transfer_viajeros
-        $sql = "UPDATE transfer_viajeros SET nombre = :nombre, email = :email, password = :password WHERE id_viajero = :id";
+        // Construir la consulta SQL con los campos que se actualizarán
+        $sql = "UPDATE transfer_viajeros SET nombre = :nombre, email = :email";
+        
+        // Solo agregar el campo de contraseña si está presente
+        if (isset($datos['password'])) {
+            $sql .= ", password = :password";
+        }
+        
+        $sql .= " WHERE id_viajero = :id";
         $stmt = $this->db->prepare($sql);
+    
+        // Vincular los parámetros
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':nombre', $datos['nombre']);
         $stmt->bindParam(':email', $datos['email']);
-        $stmt->bindParam(':password', password_hash($datos['password'], PASSWORD_DEFAULT)); // Hash de la nueva contraseña
+        
+        if (isset($datos['password'])) {
+            $stmt->bindParam(':password', $datos['password']);
+        }
+    
         return $stmt->execute();
     }
+    
 
     public function obtenerClientePorId($id) {
         // Cambiar la tabla a transfer_viajeros

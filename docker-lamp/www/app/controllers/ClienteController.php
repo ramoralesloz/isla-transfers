@@ -87,21 +87,30 @@ class ClienteController {
 
     
     public function modificarCliente($id, $datos) {
-        if (isset($datos['nombre'], $datos['apellido1'], $datos['apellido2'], $datos['direccion'], $datos['codigoPostal'], 
-                  $datos['ciudad'], $datos['pais'], $datos['email'])) {
-            if ($this->clienteModel->modificarCliente($id, $datos)) {
-                $_SESSION['mensaje_exito'] = "Cliente modificado con éxito";
+        // Verificar si el nombre y el email están completos
+        if (isset($datos['nombre'], $datos['email'])) {
+            // Solo hash de la contraseña si se proporciona
+            if (!empty($datos['password'])) {
+                $datos['password'] = $datos['password'];
             } else {
-                $_SESSION['mensaje_error'] = "Error al modificar el cliente";
+                // Si no hay contraseña, eliminamos este campo de `$datos`
+                unset($datos['password']);
+            }
+            
+            if ($this->clienteModel->modificarCliente($id, $datos)) {
+                $_SESSION['mensaje_exito'] = "Datos actualizados con éxito";
+            } else {
+                $_SESSION['mensaje_error'] = "Error al actualizar los datos";
             }
             header("Location: /cliente/perfil");
             exit();
         } else {
-            $_SESSION['mensaje_error'] = "Error: Datos incompletos para modificar el cliente.";
+            $_SESSION['mensaje_error'] = "Error: Datos incompletos para actualizar el cliente.";
             header("Location: /cliente/perfil");
             exit();
         }
     }
+    
 }
 
 ob_end_flush(); // Enviar todo el contenido del búfer y desactivarlo

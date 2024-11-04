@@ -127,7 +127,6 @@ class Reserva {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
-
     public function obtenerTodasLasReservas() {
         $sql = "SELECT * FROM transfer_reservas";
         $stmt = $this->db->query($sql);
