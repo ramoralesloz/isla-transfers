@@ -43,7 +43,7 @@ class ClienteController {
                 // Manejo de sesión para el administrador
                 $_SESSION['cliente_id'] = 'admin';
                 $_SESSION['tipo_cliente'] = 'administrador';
-                $_SESSION['nombre_cliente'] = $cliente['nombre']; // Almacenar el nombre del cliente en la sesión
+                $_SESSION['email_cliente'] = $datos['email']; // Guardar el email en la sesión
                 header("Location: /admin/home");
                 exit();
             }
@@ -55,7 +55,8 @@ class ClienteController {
                 // Manejo de sesión para clientes
                 $_SESSION['cliente_id'] = $cliente['id_viajero'];
                 $_SESSION['tipo_cliente'] = 'particular';
-                
+                $_SESSION['email_cliente'] = $cliente['email']; // Guardar el email en la sesión
+    
                 // Verificar si el nombre existe en el resultado
                 if (isset($cliente['nombre'])) {
                     $_SESSION['nombre_cliente'] = $cliente['nombre'];

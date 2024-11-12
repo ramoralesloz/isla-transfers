@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'montserrat', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #f5f5f5;
             text-align: center;
             padding: 2em;
@@ -72,6 +72,21 @@
         .volver-menu {
             margin-top: 2em;
         }
+
+        .volver-menu a {
+            display: inline-block;
+            padding: 1em 2em;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .volver-menu a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -82,11 +97,20 @@
     <div class="reservas">
         <?php if (!empty($reservas) && is_array($reservas)): ?>
             <?php foreach ($reservas as $reserva): ?>
+                <?php if (isset($_SESSION['email_cliente']) && isset($reserva['email_cliente']) && $reserva['email_cliente'] === $_SESSION['email_cliente']): ?>
                 <div class="reserva">
                     <h3>Reserva: <?= htmlspecialchars($reserva['localizador']) ?></h3>
                     <p><strong>Hotel:</strong> <?= htmlspecialchars($reserva['id_hotel']) ?></p>
                     <p><strong>Fecha de Reserva:</strong> <?= htmlspecialchars($reserva['fecha_reserva']) ?></p>
+                    <p><strong>Fecha de Modificación:</strong> <?= htmlspecialchars($reserva['fecha_modificacion']) ?></p>
                     <p><strong>Fecha de Entrada:</strong> <?= htmlspecialchars($reserva['fecha_entrada']) ?> <?= htmlspecialchars($reserva['hora_entrada']) ?></p>
+                    <p><strong>Origen del Vuelo:</strong> <?= htmlspecialchars($reserva['origen_vuelo_entrada']) ?></p>
+                    <p><strong>Fecha de Vuelo de Salida:</strong> <?= htmlspecialchars($reserva['fecha_vuelo_salida']) ?></p>
+                    <p><strong>Hora del Vuelo de Salida:</strong> <?= htmlspecialchars($reserva['hora_vuelo_salida']) ?></p>
+                    <p><strong>Hora de Recogida:</strong> <?= htmlspecialchars($reserva['hora_recogida']) ?></p>
+                    <p><strong>Número de Viajeros:</strong> <?= htmlspecialchars($reserva['num_viajeros']) ?></p>
+                    <p><strong>Vehículo:</strong> <?= htmlspecialchars($reserva['id_vehiculo']) ?></p>
+                    <p><strong>Número de Vuelo:</strong> <?= htmlspecialchars($reserva['numero_vuelo']) ?></p>
 
                     <!-- Botón de Cancelar con verificación de 48 horas -->
                     <?php if ($reserva['cancelable']): ?>
@@ -101,6 +125,7 @@
                         <button disabled>Modificar no disponible (menos de 48 horas)</button>
                     <?php endif; ?>
                 </div>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php else: ?>
             <p>No hay reservas disponibles.</p>
@@ -109,7 +134,7 @@
 
     <div class="volver-menu">
         <a href="/cliente/home">
-            <button>Volver al Menú del Usuario</button>
+            Volver al Menú del Usuario
         </a>
     </div>
 </body>

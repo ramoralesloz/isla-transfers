@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'MontserratS', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #f5f5f5;
             margin: 0;
             padding: 0;

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Reserva</title>
+    <title>Crear Reserva - Cliente Particular</title>
     <link rel="stylesheet" href="/public/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'monsterrat', sans-serif;
             background-color: #f5f5f5;
             text-align: center;
             padding: 2em;
@@ -67,23 +67,12 @@
 </head>
 <body>
     <header>
-        <h1>Crear Nueva Reserva - 
-            <?php if ($_SESSION['tipo_cliente'] === 'administrador'): ?>
-                Administrador
-            <?php else: ?>
-                <?= htmlspecialchars($_SESSION['nombre_cliente']) ?>
-            <?php endif; ?>
-        </h1>
+        <h1>Crear Nueva Reserva - Cliente Particular</h1>
     </header>
 
     <form action="/reserva/crear" method="POST">
-        <?php if ($_SESSION['tipo_cliente'] === 'administrador'): ?>
-            <label for="email_cliente">Correo Electrónico del Cliente:</label>
-            <input type="email" id="email_cliente" name="email_cliente" required>
-        <?php else: ?>
-            <label for="email_cliente">Correo Electrónico del Cliente:</label>
-            <input type="email" id="email_cliente" name="email_cliente" value="<?= htmlspecialchars($_SESSION['email_cliente']) ?>" readonly>
-        <?php endif; ?>
+        <label for="email_cliente">Correo Electrónico del Cliente:</label>
+        <input type="email" id="email_cliente" name="email_cliente" required>
 
         <label for="tipo_trayecto">Tipo de Trayecto:</label>
         <select id="tipo_trayecto" name="id_tipo_reserva" required>
@@ -95,28 +84,32 @@
         <!-- Campos para el trayecto de aeropuerto a hotel -->
         <div id="aeropuerto_hotel_fields">
             <label for="fecha_entrada">Fecha de Llegada:</label>
-            <input type="date" id="fecha_entrada" name="fecha_entrada" required>
+            <input type="date" id="fecha_entrada" name="fecha_entrada">
 
             <label for="hora_entrada">Hora de Llegada:</label>
-            <input type="time" id="hora_entrada" name="hora_entrada" required>
+            <input type="time" id="hora_entrada" name="hora_entrada">
 
             <label for="numero_vuelo">Número de Vuelo:</label>
-            <input type="text" id="numero_vuelo" name="numero_vuelo" required>
+            <input type="text" id="numero_vuelo" name="numero_vuelo">
 
             <label for="origen_vuelo_entrada">Origen del Vuelo:</label>
-            <input type="text" id="origen_vuelo_entrada" name="origen_vuelo_entrada" required>
+            <input type="text" id="origen_vuelo_entrada" name="origen_vuelo_entrada">
+            
         </div>
 
         <!-- Campos para el trayecto de hotel a aeropuerto -->
         <div id="hotel_aeropuerto_fields">
-            <label for="fecha_salida">Fecha del Vuelo de Salida:</label>
-            <input type="date" id="fecha_salida" name="fecha_vuelo_salida" required>
+            <label for="fecha_salida">Fecha del Vuelo:</label>
+            <input type="date" id="fecha_salida" name="fecha_vuelo_salida">
 
-            <label for="hora_salida">Hora del Vuelo de Salida:</label>
-            <input type="time" id="hora_salida" name="hora_vuelo_salida" required>
+            <label for="hora_salida">Hora del Vuelo:</label>
+            <input type="time" id="hora_salida" name="hora_vuelo_salida">
+
+            <label for="numero_vuelo_salida">Número de Vuelo de Salida:</label>
+            <input type="text" id="numero_vuelo_salida" name="numero_vuelo_salida">
 
             <label for="hora_recogida">Hora de Recogida en el Hotel:</label>
-            <input type="time" id="hora_recogida" name="hora_recogida" required>
+            <input type="time" id="hora_recogida" name="hora_recogida">
         </div>
 
         <!-- Campos comunes -->
@@ -134,7 +127,7 @@
         <button type="submit">Crear Reserva</button>
     </form>
     <div class="volver-menu">
-        <a href="<?php echo $_SESSION['tipo_cliente'] === 'administrador' ? '/reserva/calendario' : '/cliente/home'; ?>">
+        <a href="/cliente/home">
             <button>Volver al Menú del Usuario</button>
         </a>
     </div>
@@ -156,3 +149,6 @@
     </script>
 </body>
 </html>
+
+
+

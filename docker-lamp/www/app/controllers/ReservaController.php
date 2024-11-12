@@ -17,9 +17,16 @@ class ReservaController {
         } else {
             $_SESSION['mensaje_error'] = "Error al crear la reserva";
         }
-        header("Location: /reserva/listar");
+    
+        // Redireccionar según el tipo de cliente
+        if ($_SESSION['tipo_cliente'] === 'administrador') {
+            header("Location: /reserva/calendario");
+        } else {
+            header("Location: /reserva/listar");
+        }
         exit();
     }
+    
 
     public function listarReservas() {
         // Obtiene todas las reservas desde el modelo
@@ -62,6 +69,19 @@ class ReservaController {
         header("Location: /reserva/listar");
         exit();
     }
+    public function listarCalendarioReservas() {
+        $reservas = $this->reservaModel->obtenerTodasLasReservas();
+        include dirname(__DIR__, 2) . '/app/views/reservas/calendario_reservas_admin.php';
+    }
+    public function detalleReserva($id) {
+        $reserva = $this->reservaModel->obtenerReservaPorId($id);
+        if ($reserva) {
+            include dirname(__DIR__, 2) . '/app/views/reservas/detalle_reserva.php';
+        } else {
+            echo "Reserva no encontrada.";
+        }
+    }
+    
 }
 
 ob_end_flush(); // Enviar todo el contenido del búfer y desactivarlo

@@ -46,7 +46,7 @@ switch ($uri) {
                 $reservas = $controller->listarReservas(); // Almacenar las reservas devueltas por el método
                 include BASE_PATH . '/app/views/reservas/listar.php'; // Incluir la vista aquí
             } else {
-                header('Location: /cliente/login');
+                //header('Location: /cliente/login');
                 exit();
             }
             break;
@@ -155,6 +155,28 @@ switch ($uri) {
                 echo "<h1>Solicitud inválida</h1>";
             }
             break;
+
+            break;
+            case '/reserva/detalle':
+                if (isset($_GET['id'])) {
+                    $controller = new ReservaController();
+                    $controller->detalleReserva($_GET['id']);
+                } else {
+                    http_response_code(400);
+                    echo "<h1>Solicitud inválida</h1>";
+                }
+                break;
+            
+        case '/reserva/calendario':
+            if (isset($_SESSION['cliente_id']) && $_SESSION['tipo_cliente'] === 'administrador') {
+                $controller = new ReservaController();
+                $controller->listarCalendarioReservas();
+            } else {
+                header('Location: /cliente/login');
+                exit();
+            }
+            break;
+                    
     default:
         http_response_code(404);
         echo "<h1>Página no encontrada</h1>";
@@ -162,4 +184,3 @@ switch ($uri) {
 }
 ob_end_flush(); // Enviar todo el contenido del búfer y desactivarlo
 ?>
-

@@ -1,9 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['cliente_id']) || $_SESSION['tipo_cliente'] !== 'administrador') {
-    header('Location: /cliente/login');
-    exit();
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -111,7 +105,8 @@ if (!isset($_SESSION['cliente_id']) || $_SESSION['tipo_cliente'] !== 'administra
         <h1>Bienvenido, Administrador</h1>
         <nav>
             <ul>
-                <li><a href="/reserva/gestionar"><i class="fas fa-tasks"></i> Gestionar Reservas</a></li>
+                <li><a href="/reserva/crear"><i class="fas fa-tasks"></i> Crear Reservas</a></li>
+                <li><a href="/reserva/gestionar"><i class="fas fa-tasks"></i> Listado Reservas</a></li>
                 <li><a href="/vehiculo/listar"><i class="fas fa-car"></i> Ver Vehículos</a></li>
                 <li><a href="/hotel/agregar"><i class="fas fa-hotel"></i> Agregar Nuevo Hotel</a></li>
                 <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
@@ -120,16 +115,22 @@ if (!isset($_SESSION['cliente_id']) || $_SESSION['tipo_cliente'] !== 'administra
     </header>
 
     <main>
-        <section id="gestionar-reservas">
-            <h2>Gestionar Reservas</h2>
+        <section id="Crear-reservas">
+            <h2>Crear Reservas</h2>
             <p>Desde aquí puedes gestionar todas las reservas realizadas, incluyendo su modificación y cancelación.</p>
-            <a href="/reserva/gestionar" class="button"><i class="fas fa-tasks"></i> Ir a Gestionar Reservas</a>
+            <a href="/reserva/crear" class="button"><i class="fas fa-tasks"></i> Crear Reservas</a>
         </section>
 
+        <section id="listar-reservas">
+            <h2>Listado Reservas</h2>
+            <p>El administrador podrá consultar una vista por semana, por día y por mes de los trayectos que han de realizar. Los trayectos se debe mostrar en formato calendario.  Cuando se accede a un trayecto se muestra la información detallada con todos los campos entrados.</p>
+            <a href="/reserva/calendario" class="button"><i class="fas fa-calendar-alt"></i> Ver Calendario de Reservas</a>
+            </section>
+
         <section id="ver-vehiculos">
-            <h2>Ver Vehículos</h2>
+            <h2>Agregar Vehículos</h2>
             <p>Consulta y gestiona los vehículos disponibles para los transfers.</p>
-            <a href="/vehiculo/listar" class="button"><i class="fas fa-car"></i> Ver Vehículos</a>
+            <a href="/vehiculo/listar" class="button"><i class="fas fa-car"></i> Agregar Vehículos</a>
         </section>
 
         <section id="agregar-hotel">
@@ -144,4 +145,3 @@ if (!isset($_SESSION['cliente_id']) || $_SESSION['tipo_cliente'] !== 'administra
     </footer>
 </body>
 </html>
-
