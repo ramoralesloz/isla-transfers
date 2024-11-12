@@ -106,10 +106,10 @@
         <nav>
             <ul>
                 <li><a href="/reserva/crear"><i class="fas fa-tasks"></i> Crear Reservas</a></li>
-                <li><a href="/reserva/gestionar"><i class="fas fa-tasks"></i> Listado Reservas</a></li>
-                <li><a href="/vehiculo/listar"><i class="fas fa-car"></i> Ver Vehículos</a></li>
-                <li><a href="/hotel/agregar"><i class="fas fa-hotel"></i> Agregar Nuevo Hotel</a></li>
-                <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                <li><a href="/reserva/calendario"><i class="fas fa-calendar-alt"></i> Listado Reservas</a></li>
+                <li><a href="/en_construccion"><i class="fas fa-car"></i> Ver Vehículos</a></li>
+                <li><a href="/en_construccion"><i class="fas fa-hotel"></i> Agregar Nuevo Hotel</a></li>
+                <li><a href="/"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -130,13 +130,13 @@
         <section id="ver-vehiculos">
             <h2>Agregar Vehículos</h2>
             <p>Consulta y gestiona los vehículos disponibles para los transfers.</p>
-            <a href="/vehiculo/listar" class="button"><i class="fas fa-car"></i> Agregar Vehículos</a>
+            <a href="/en_construccion" class="button"><i class="fas fa-car"></i> Agregar Vehículos</a>
         </section>
 
         <section id="agregar-hotel">
             <h2>Agregar Nuevo Hotel</h2>
             <p>Agrega nuevos hoteles al sistema para que los clientes puedan reservar transfers desde o hacia ellos.</p>
-            <a href="/hotel/agregar" class="button"><i class="fas fa-hotel"></i> Agregar Hotel</a>
+            <a href="/en_construccion" class="button"><i class="fas fa-hotel"></i> Agregar Hotel</a>
         </section>
     </main>
 

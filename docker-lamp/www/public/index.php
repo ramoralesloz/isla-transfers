@@ -175,7 +175,45 @@ switch ($uri) {
                 header('Location: /cliente/login');
                 exit();
             }
+           break;
+           case '/reserva/modificar':
+            if ($method === 'GET' && isset($_GET['id'])) {
+                // Si es una solicitud GET, mostrar el formulario de modificación
+                $controller = new ReservaController();
+                $reserva = $controller->obtenerReservaPorId($_GET['id']);
+                if ($reserva) {
+                    $fechaEntrada = new DateTime($reserva['fecha_entrada'] . ' ' . ($reserva['hora_entrada'] ?? '00:00:00'));
+                    $fechaActual = new DateTime();
+                    $intervalo = $fechaActual->diff($fechaEntrada);
+                    $horasRestantes = ($intervalo->days * 24) + $intervalo->h;
+        
+                    if ($horasRestantes < 48) {
+                        // Mostrar mensaje de error si no se puede modificar
+                        $_SESSION['mensaje_error'] = "No se puede modificar la reserva con menos de 48 horas de anticipación.";
+                        header("Location: /reserva/listar");
+                        exit();
+                    } else {
+                        include BASE_PATH . '/app/views/reservas/modificar_reserva.php';
+                    }
+                } else {
+                    http_response_code(404);
+                    echo "<h1>Reserva no encontrada</h1>";
+                }
+            } elseif ($method === 'POST') {
+                // Si es una solicitud POST, procesar los cambios en la reserva
+                if (isset($_POST['id_reserva'])) {
+                    $controller = new ReservaController();
+                    $controller->modificarReserva($_POST['id_reserva'], $_POST);
+                } else {
+                    http_response_code(400);
+                    echo "<h1>Solicitud inválida</h1>";
+                }
+            }
             break;
+    case '/en_construccion':
+    // Mostrar la página en construcción
+    include BASE_PATH . '/app/views/en_construccion.php';
+    break;
                     
     default:
         http_response_code(404);

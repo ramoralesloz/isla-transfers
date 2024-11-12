@@ -20,6 +20,7 @@ class ClienteController {
     public function registrarCliente($datos) {
         if (isset($datos['nombre'], $datos['apellido1'], $datos['apellido2'], $datos['direccion'], $datos['codigoPostal'], 
                   $datos['ciudad'], $datos['pais'], $datos['email'], $datos['password'])) {
+            // Intentar registrar el cliente con todos los datos
             if ($this->clienteModel->registrarCliente($datos)) {
                 $_SESSION['mensaje_exito'] = "Cliente registrado con éxito";
                 header("Location: /cliente/login");

@@ -94,33 +94,39 @@ class Reserva {
     }
 
     public function obtenerReservaPorId($id) {
-        $sql = "SELECT * FROM transfer_reservas WHERE id_reserva = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['id' => $id]);
+        $query = "SELECT * FROM transfer_reservas WHERE id_reserva = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    
     public function modificarReserva($id, $datos) {
-        $sql = "UPDATE transfer_reservas SET 
-                    localizador = :localizador,
-                    id_hotel = :id_hotel,
-                    fecha_reserva = :fecha_reserva,
-                    fecha_modificacion = :fecha_modificacion,
-                    fecha_entrada = :fecha_entrada,
-                    hora_entrada = :hora_entrada,
-                    numero_vuelo = :numero_vuelo,
-                    origen_vuelo_entrada = :origen_vuelo_entrada,
-                    fecha_vuelo_salida = :fecha_vuelo_salida,
-                    hora_vuelo_salida = :hora_vuelo_salida,
-                    hora_recogida = :hora_recogida,
-                    num_viajeros = :num_viajeros,
-                    id_destino = :id_destino
-                WHERE id_reserva = :id";
-
-        $stmt = $this->db->prepare($sql);
-        $datos['id'] = $id;
-        return $stmt->execute($datos);
+        $query = "UPDATE transfer_reservas 
+                  SET fecha_entrada = :fecha_entrada,
+                      hora_entrada = :hora_entrada,
+                      origen_vuelo_entrada = :origen_vuelo_entrada,
+                      fecha_vuelo_salida = :fecha_vuelo_salida,
+                      hora_vuelo_salida = :hora_vuelo_salida,
+                      hora_recogida = :hora_recogida,
+                      num_viajeros = :num_viajeros,
+                      id_vehiculo = :id_vehiculo,
+                      fecha_modificacion = NOW()
+                  WHERE id_reserva = :id";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha_entrada', $datos['fecha_entrada']);
+        $stmt->bindParam(':hora_entrada', $datos['hora_entrada']);
+        $stmt->bindParam(':origen_vuelo_entrada', $datos['origen_vuelo_entrada']);
+        $stmt->bindParam(':fecha_vuelo_salida', $datos['fecha_vuelo_salida']);
+        $stmt->bindParam(':hora_vuelo_salida', $datos['hora_vuelo_salida']);
+        $stmt->bindParam(':hora_recogida', $datos['hora_recogida']);
+        $stmt->bindParam(':num_viajeros', $datos['num_viajeros'], PDO::PARAM_INT);
+        $stmt->bindParam(':id_vehiculo', $datos['id_vehiculo'], PDO::PARAM_INT);
+        return $stmt->execute();
     }
+    
 
     public function eliminarReserva($id) {
         $sql = "DELETE FROM transfer_reservas WHERE id_reserva = :id";

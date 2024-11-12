@@ -50,14 +50,22 @@ class ReservaController {
     
     
     public function modificarReserva($id, $datos) {
+        // Modificar los datos de la reserva
         if ($this->reservaModel->modificarReserva($id, $datos)) {
             $_SESSION['mensaje_exito'] = "Reserva modificada con éxito";
         } else {
             $_SESSION['mensaje_error'] = "Error al modificar la reserva";
         }
-        header("Location: /reserva/listar");
+    
+        if ($_SESSION['tipo_cliente'] === 'administrador') {
+            header("Location: /reserva/calendario");
+        } else {
+            header("Location: /reserva/listar");
+        }
         exit();
     }
+    
+    
 
     public function eliminarReserva($id) {
         // Llamar al método eliminarReserva del modelo
@@ -81,6 +89,12 @@ class ReservaController {
             echo "Reserva no encontrada.";
         }
     }
+
+    public function obtenerReservaPorId($id) {
+        return $this->reservaModel->obtenerReservaPorId($id);
+    }
+    
+    
     
 }
 

@@ -53,6 +53,28 @@
         .volver-menu a:hover {
             background-color: #0056b3;
         }
+
+        .acciones {
+            margin-top: 2em;
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+        }
+
+        .acciones a {
+            display: inline-block;
+            padding: 1em 2em;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .acciones a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +100,8 @@
         <p><strong>Vehículo:</strong> <?= htmlspecialchars($reserva['id_vehiculo']) ?></p>
     </div>
 
-    <div class="volver-menu">
+    <div class="acciones">
+        <a href="/reserva/modificar?id=<?= urlencode($reserva['id_reserva']) ?>">Modificar Reserva</a>
         <a href="/reserva/calendario">Volver al Calendario</a>
     </div>
 

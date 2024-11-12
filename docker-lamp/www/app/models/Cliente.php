@@ -9,11 +9,11 @@ class Cliente {
     }
 
     public function registrarCliente($datos) {
-        // Cambiar la tabla a transfer_viajeros
+        // Inserción de todos los campos en la tabla transfer_viajeros
         $sql = "INSERT INTO transfer_viajeros (nombre, apellido1, apellido2, direccion, codigoPostal, ciudad, pais, email, password) 
                 VALUES (:nombre, :apellido1, :apellido2, :direccion, :codigoPostal, :ciudad, :pais, :email, :password)";
         $stmt = $this->db->prepare($sql);
-        $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT); // Hash de la contraseña antes de almacenarla
+        $datos['password'] = $datos['password']; // Se deja la contraseña en texto plano
         return $stmt->execute($datos);
     }
 

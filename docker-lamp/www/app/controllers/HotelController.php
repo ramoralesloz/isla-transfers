@@ -44,16 +44,17 @@ class HotelController {
                 // Manejo de sesión para hoteles
                 $_SESSION['hotel_id'] = $hotel['id_hotel'];
                 $_SESSION['tipo_cliente'] = 'corporativo';
-                echo "Sesión establecida correctamente para hotel: " . $_SESSION['hotel_id'];
                 header("Location: /hotel/home");
                 exit();
             } else {
-                echo "Credenciales incorrectas";
+                $_SESSION['mensaje_error'] = "Credenciales incorrectas";
                 header("Location: /hotel/login");
                 exit();
             }
         } else {
-            echo "Error: Datos de inicio de sesión incompletos.";
+            $_SESSION['mensaje_error'] = "Error: Datos de inicio de sesión incompletos.";
+            header("Location: /hotel/login");
+            exit();
         }
     }
 }
