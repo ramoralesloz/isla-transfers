@@ -76,7 +76,7 @@
         </h1>
     </header>
 
-    <form action="/reserva/crear" method="POST">
+    <form id="reservaForm" action="/reserva/crear" method="POST">
         <?php if ($_SESSION['tipo_cliente'] === 'administrador'): ?>
             <label for="email_cliente">Correo Electrónico del Cliente:</label>
             <input type="email" id="email_cliente" name="email_cliente" required>
@@ -95,28 +95,25 @@
         <!-- Campos para el trayecto de aeropuerto a hotel -->
         <div id="aeropuerto_hotel_fields">
             <label for="fecha_entrada">Fecha de Llegada:</label>
-            <input type="date" id="fecha_entrada" name="fecha_entrada" required>
+            <input type="date" id="fecha_entrada" name="fecha_entrada">
 
             <label for="hora_entrada">Hora de Llegada:</label>
-            <input type="time" id="hora_entrada" name="hora_entrada" required>
-
-            <label for="numero_vuelo">Número de Vuelo:</label>
-            <input type="text" id="numero_vuelo" name="numero_vuelo" required>
+            <input type="time" id="hora_entrada" name="hora_entrada">
 
             <label for="origen_vuelo_entrada">Origen del Vuelo:</label>
-            <input type="text" id="origen_vuelo_entrada" name="origen_vuelo_entrada" required>
+            <input type="text" id="origen_vuelo_entrada" name="origen_vuelo_entrada">
         </div>
 
         <!-- Campos para el trayecto de hotel a aeropuerto -->
         <div id="hotel_aeropuerto_fields">
             <label for="fecha_salida">Fecha del Vuelo de Salida:</label>
-            <input type="date" id="fecha_salida" name="fecha_vuelo_salida" required>
+            <input type="date" id="fecha_salida" name="fecha_vuelo_salida">
 
             <label for="hora_salida">Hora del Vuelo de Salida:</label>
-            <input type="time" id="hora_salida" name="hora_vuelo_salida" required>
+            <input type="time" id="hora_salida" name="hora_vuelo_salida">
 
             <label for="hora_recogida">Hora de Recogida en el Hotel:</label>
-            <input type="time" id="hora_recogida" name="hora_recogida" required>
+            <input type="time" id="hora_recogida" name="hora_recogida">
         </div>
 
         <!-- Campos comunes -->
@@ -128,6 +125,9 @@
 
         <label for="num_viajeros">Número de Viajeros:</label>
         <input type="number" id="num_viajeros" name="num_viajeros" required>
+
+        <label for="numero_vuelo">Número de Vuelo:</label>
+        <input type="text" id="numero_vuelo" name="numero_vuelo">
 
         <label for="id_vehiculo">Número Vehiculo:</label>
         <input type="number" id="id_vehiculo" name="id_vehiculo" required>
@@ -146,13 +146,21 @@
 
             function toggleFields() {
                 const tipoTrayecto = tipoTrayectoSelect.value;
+
+                // Mostrar/Ocultar campos según el trayecto seleccionado
                 aeropuertoHotelFields.style.display = tipoTrayecto === '1' || tipoTrayecto === '3' ? 'block' : 'none';
                 hotelAeropuertoFields.style.display = tipoTrayecto === '2' || tipoTrayecto === '3' ? 'block' : 'none';
+
+                // Remover 'required' de todos los campos y añadir solo si están visibles
+                document.querySelectorAll('#aeropuerto_hotel_fields input, #hotel_aeropuerto_fields input').forEach(function (input) {
+                    input.required = input.closest('div').style.display === 'block';
+                });
             }
 
             tipoTrayectoSelect.addEventListener('change', toggleFields);
             toggleFields();
         });
     </script>
+
 </body>
 </html>
