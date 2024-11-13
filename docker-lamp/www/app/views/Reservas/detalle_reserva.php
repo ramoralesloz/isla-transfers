@@ -106,7 +106,7 @@
     </div>
 
     <footer>
-        <p>Isla Transfers - Todos los derechos reservados &copy; 2024</p>
+        <p>Isla Transfers 2024</p>
     </footer>
 </body>
 </html>

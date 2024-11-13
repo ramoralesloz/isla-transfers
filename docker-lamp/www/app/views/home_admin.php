@@ -141,7 +141,7 @@
     </main>
 
     <footer>
-        <p>Isla Transfers - Todos los derechos reservados &copy; 2024</p>
+        <p>Isla transfers 2024</p>
     </footer>
 </body>
 </html>
