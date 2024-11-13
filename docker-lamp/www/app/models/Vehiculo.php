@@ -1,28 +1,40 @@
 <?php
+// Vehiculo.php - Modelo que representa un Vehículo
 
-// Clase Vehiculo
 class Vehiculo {
-    private $db;
+    private $id;
+    private $descripcion;
+    private $emailConductor;
 
-    public function __construct() {
-        $this->db = Database::getInstance()->getConnection();
+    public function __construct($id = null, $descripcion = '', $emailConductor = '') {
+        $this->id = $id;
+        $this->descripcion = $descripcion;
+        $this->emailConductor = $emailConductor;
     }
 
-    public function obtenerVehiculosDisponibles() {
-        $sql = "SELECT id_vehiculo, Descripción FROM transfer_vehiculo";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Getters y Setters
+    public function getId() {
+        return $this->id;
     }
 
-    public function agregarVehiculo($datos) {
-        $sql = "INSERT INTO transfer_vehiculos (descripcion, email_conductor) VALUES (:descripcion, :email_conductor)";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute($datos);
+    public function setId($id) {
+        $this->id = $id;
     }
 
-    public function eliminarVehiculo($id) {
-        $sql = "DELETE FROM transfer_vehiculos WHERE id_vehiculo = :id";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute(['id' => $id]);
+    public function getDescripcion() {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion($descripcion) {
+        $this->descripcion = $descripcion;
+    }
+
+    public function getEmailConductor() {
+        return $this->emailConductor;
+    }
+
+    public function setEmailConductor($emailConductor) {
+        $this->emailConductor = $emailConductor;
     }
 }
+?>

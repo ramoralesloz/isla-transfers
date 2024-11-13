@@ -1,27 +1,20 @@
 <?php
-
-ob_start(); // Iniciar output buffering
-
-// Definir la constante BASE_PATH para asegurarnos de que esté disponible
-if (!defined('BASE_PATH')) {
-    define('BASE_PATH', dirname(dirname(__DIR__)));
-}
-
-// Incluir el modelo necesario
-require_once BASE_PATH . '/app/models/Cliente.php';
+// ClienteController.php - Controlador de Cliente
+require_once dirname(__DIR__) . '/dao/DAOFactory.php';
 
 class ClienteController {
-    private $clienteModel;
+    private $clienteDAO;
 
     public function __construct() {
-        $this->clienteModel = new Cliente();
+        DAOFactory::init();
+        $this->clienteDAO = DAOFactory::getClienteDAO();
     }
 
     public function registrarCliente($datos) {
         if (isset($datos['nombre'], $datos['apellido1'], $datos['apellido2'], $datos['direccion'], $datos['codigoPostal'], 
                   $datos['ciudad'], $datos['pais'], $datos['email'], $datos['password'])) {
             // Intentar registrar el cliente con todos los datos
-            if ($this->clienteModel->registrarCliente($datos)) {
+            if ($this->clienteDAO->registrarCliente($datos)) { // Cambio aquí
                 $_SESSION['mensaje_exito'] = "Cliente registrado con éxito";
                 header("Location: /cliente/login");
                 exit();
@@ -50,7 +43,7 @@ class ClienteController {
             }
     
             // Si no es administrador, buscar el cliente en la base de datos
-            $cliente = $this->clienteModel->obtenerClientePorEmail($datos['email']);
+            $cliente = $this->clienteDAO->obtenerClientePorEmail($datos['email']); // Cambio aquí
     
             if ($cliente && $cliente['password'] === $datos['password']) {
                 // Manejo de sesión para clientes
@@ -77,8 +70,9 @@ class ClienteController {
             echo "Error: Datos de inicio de sesión incompletos.";
         }
     }
+
     public function obtenerClientePorId($id) {
-        $cliente = $this->clienteModel->obtenerClientePorId($id);
+        $cliente = $this->clienteDAO->obtenerClientePorId($id); // Cambio aquí
         if ($cliente) {
             return $cliente;
         } else {
@@ -87,7 +81,6 @@ class ClienteController {
         }
     }
 
-    
     public function modificarCliente($id, $datos) {
         // Verificar si el nombre y el email están completos
         if (isset($datos['nombre'], $datos['email'])) {
@@ -99,7 +92,7 @@ class ClienteController {
                 unset($datos['password']);
             }
             
-            if ($this->clienteModel->modificarCliente($id, $datos)) {
+            if ($this->clienteDAO->modificarCliente($id, $datos)) { // Cambio aquí
                 $_SESSION['mensaje_exito'] = "Datos actualizados con éxito";
             } else {
                 $_SESSION['mensaje_error'] = "Error al actualizar los datos";
@@ -112,27 +105,6 @@ class ClienteController {
             exit();
         }
     }
-    
 }
 
-ob_end_flush(); // Enviar todo el contenido del búfer y desactivarlo
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

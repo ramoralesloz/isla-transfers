@@ -1,61 +1,110 @@
 <?php
-
-// Clase Cliente
+// Cliente.php - Modelo que representa a un Cliente
 class Cliente {
-    private $db;
+    private $id;
+    private $nombre;
+    private $apellido1;
+    private $apellido2;
+    private $direccion;
+    private $codigoPostal;
+    private $ciudad;
+    private $pais;
+    private $email;
+    private $password;
 
-    public function __construct() {
-        $this->db = Database::getInstance()->getConnection();
+    // Constructor para inicializar los atributos del Cliente
+    public function __construct($id = null, $nombre = '', $apellido1 = '', $apellido2 = '', $direccion = '', $codigoPostal = '', $ciudad = '', $pais = '', $email = '', $password = '') {
+        $this->id = $id;
+        $this->nombre = $nombre;
+        $this->apellido1 = $apellido1;
+        $this->apellido2 = $apellido2;
+        $this->direccion = $direccion;
+        $this->codigoPostal = $codigoPostal;
+        $this->ciudad = $ciudad;
+        $this->pais = $pais;
+        $this->email = $email;
+        $this->password = $password;
     }
 
-    public function registrarCliente($datos) {
-        // Inserción de todos los campos en la tabla transfer_viajeros
-        $sql = "INSERT INTO transfer_viajeros (nombre, apellido1, apellido2, direccion, codigoPostal, ciudad, pais, email, password) 
-                VALUES (:nombre, :apellido1, :apellido2, :direccion, :codigoPostal, :ciudad, :pais, :email, :password)";
-        $stmt = $this->db->prepare($sql);
-        $datos['password'] = $datos['password']; // Se deja la contraseña en texto plano
-        return $stmt->execute($datos);
+    // Getters y Setters
+    public function getId() {
+        return $this->id;
     }
 
-    public function obtenerClientePorEmail($email) {
-        // Cambiar la tabla a transfer_viajeros
-        $sql = "SELECT id_viajero, nombre, email, password FROM transfer_viajeros WHERE email = :email";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['email' => $email]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function setId($id) {
+        $this->id = $id;
     }
 
-    public function modificarCliente($id, $datos) {
-        // Construir la consulta SQL con los campos que se actualizarán
-        $sql = "UPDATE transfer_viajeros SET nombre = :nombre, email = :email";
-        
-        // Solo agregar el campo de contraseña si está presente
-        if (isset($datos['password'])) {
-            $sql .= ", password = :password";
-        }
-        
-        $sql .= " WHERE id_viajero = :id";
-        $stmt = $this->db->prepare($sql);
-    
-        // Vincular los parámetros
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nombre', $datos['nombre']);
-        $stmt->bindParam(':email', $datos['email']);
-        
-        if (isset($datos['password'])) {
-            $stmt->bindParam(':password', $datos['password']);
-        }
-    
-        return $stmt->execute();
+    public function getNombre() {
+        return $this->nombre;
     }
-    
 
-    public function obtenerClientePorId($id) {
-        // Cambiar la tabla a transfer_viajeros
-        $sql = "SELECT id_viajero, nombre, email FROM transfer_viajeros WHERE id_viajero = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function getApellido1() {
+        return $this->apellido1;
+    }
+
+    public function setApellido1($apellido1) {
+        $this->apellido1 = $apellido1;
+    }
+
+    public function getApellido2() {
+        return $this->apellido2;
+    }
+
+    public function setApellido2($apellido2) {
+        $this->apellido2 = $apellido2;
+    }
+
+    public function getDireccion() {
+        return $this->direccion;
+    }
+
+    public function setDireccion($direccion) {
+        $this->direccion = $direccion;
+    }
+
+    public function getCodigoPostal() {
+        return $this->codigoPostal;
+    }
+
+    public function setCodigoPostal($codigoPostal) {
+        $this->codigoPostal = $codigoPostal;
+    }
+
+    public function getCiudad() {
+        return $this->ciudad;
+    }
+
+    public function setCiudad($ciudad) {
+        $this->ciudad = $ciudad;
+    }
+
+    public function getPais() {
+        return $this->pais;
+    }
+
+    public function setPais($pais) {
+        $this->pais = $pais;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
     }
 }
 ?>

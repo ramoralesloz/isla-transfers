@@ -1,28 +1,24 @@
 <?php
-// Definir la constante BASE_PATH para asegurarnos de que esté disponible
-if (!defined('BASE_PATH')) {
-    define('BASE_PATH', dirname(dirname(__DIR__)));
-}
-
-// Incluir el modelo necesario
-require_once BASE_PATH . '/app/models/Vehiculo.php';
+// VehiculoController.php - Controlador de Vehiculos
+require_once dirname(__DIR__) . '/dao/DAOFactory.php';
 
 class VehiculoController {
-    private $vehiculoModel;
+    private $vehiculoDAO;
 
     public function __construct() {
-        $this->vehiculoModel = new Vehiculo();
+        DAOFactory::init();
+        $this->vehiculoDAO = DAOFactory::getVehiculoDAO();
     }
 
     public function listarVehiculos() {
-        $vehiculos = $this->vehiculoModel->obtenerVehiculosDisponibles();
+        $vehiculos = $this->vehiculoDAO->obtenerVehiculosDisponibles();
         foreach ($vehiculos as $vehiculo) {
             echo "ID: " . $vehiculo['id_vehiculo'] . " - Descripción: " . $vehiculo['descripcion'] . "<br>";
         }
     }
 
     public function agregarVehiculo($datos) {
-        if ($this->vehiculoModel->agregarVehiculo($datos)) {
+        if ($this->vehiculoDAO->agregarVehiculo($datos)) {
             echo "Vehículo agregado con éxito";
         } else {
             echo "Error al agregar el vehículo";
@@ -30,12 +26,11 @@ class VehiculoController {
     }
 
     public function eliminarVehiculo($id) {
-        if ($this->vehiculoModel->eliminarVehiculo($id)) {
+        if ($this->vehiculoDAO->eliminarVehiculo($id)) {
             echo "Vehículo eliminado con éxito";
         } else {
             echo "Error al eliminar el vehículo";
         }
     }
 }
-
 ?>
