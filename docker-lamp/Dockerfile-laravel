@@ -1,0 +1,35 @@
+# Usa la imagen oficial de PHP con Apache
+FROM php:8.0-apache
+
+# Instalar Composer (gestor de paquetes de PHP)
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Instalar las extensiones necesarias para Laravel
+RUN apt-get update && apt-get install -y \
+    libzip-dev unzip \
+    && docker-php-ext-install pdo pdo_mysql zip
+
+# Habilitar mod_rewrite de Apache (necesario para Laravel)
+RUN a2enmod rewrite
+
+# Crear una nueva carpeta para el proyecto
+WORKDIR /var/www/html
+
+# Instalar Laravel en la carpeta si no existe composer.json
+RUN if [ ! -f "composer.json" ]; then \
+    composer create-project --prefer-dist laravel/laravel .; \
+    fi
+
+# Cambiar la raíz del documento de Apache a /var/www/html/public
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+
+# Establecer permisos apropiados para la carpeta de la aplicación
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+# Exponer el puerto 80
+EXPOSE 80
+
+# Iniciar Apache en primer plano
+CMD ["apache2-foreground"]
+
