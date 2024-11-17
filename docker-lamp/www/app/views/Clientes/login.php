@@ -72,7 +72,7 @@
     </header>
 
     <div class="login-container">
-        <form action="/cliente/login" method="POST">
+            <form action="<?php echo BASE_URI; ?>/cliente/login" method="POST">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 

@@ -101,8 +101,8 @@
     </div>
 
     <div class="acciones">
-        <a href="/reserva/modificar?id=<?= urlencode($reserva['id_reserva']) ?>">Modificar Reserva</a>
-        <a href="/reserva/calendario">Volver al Calendario</a>
+        <a href="<?php echo BASE_URI; ?>/reserva/modificar?id=<?= urlencode($reserva['id_reserva']) ?>">Modificar Reserva</a>
+        <a href="<?php echo BASE_URI; ?>/reserva/calendario">Volver al Calendario</a>
     </div>
 
     <footer>

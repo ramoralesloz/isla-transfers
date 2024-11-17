@@ -1,6 +1,6 @@
 <?php
 // HotelController.php - Controlador de Hotel
-require_once dirname(__DIR__) . '/dao/DAOFactory.php';
+require_once dirname(__DIR__) . '/DAO/DAOFactory.php';
 
 class HotelController {
     private $hotelDAO;

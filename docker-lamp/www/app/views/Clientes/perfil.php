@@ -75,7 +75,7 @@
         <p><strong>Email:</strong> <?= htmlspecialchars($cliente['email']); ?></p>
 
         <h2>Modificar Datos</h2>
-        <form action="/cliente/modificar" method="POST">
+        <form action="<?php echo BASE_URI; ?>/cliente/modificar" method="POST">
             <!-- Campo oculto para el ID del cliente -->
             <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($cliente['id_viajero']); ?>">
 
@@ -92,7 +92,7 @@
         </form>
     </div>
     <div class="volver-menu">
-        <a href="/cliente/home">
+        <a href="<?php echo BASE_URI; ?>/cliente/home">
             <button>Volver al Menú del Usuario</button>
         </a>
     </div>

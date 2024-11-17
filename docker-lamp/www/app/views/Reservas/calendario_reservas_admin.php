@@ -70,7 +70,7 @@
     <div id="calendar"></div>
 
     <div class="volver-menu">
-        <a href="/admin/home">Volver al Menú Anterior</a>
+        <a href="<?php echo BASE_URI; ?>/admin/home">Volver al Menú Anterior</a>
     </div>
 
     <footer>
@@ -95,13 +95,13 @@
                         {
                             title: 'Reserva <?= htmlspecialchars($reserva["localizador"]) ?>',
                             start: '<?= $reserva["fecha_entrada"] . "T" . ($reserva["hora_entrada"] ?? "00:00:00") ?>',
-                            url: '/reserva/detalle?id=<?= urlencode($reserva["id_reserva"]) ?>'
+                            url: '<?= BASE_URI ?>/reserva/detalle?id=<?= urlencode($reserva["id_reserva"]) ?>'
                         },
                         <?php endforeach; ?>
                     <?php endif; ?>
                 ],
                 eventClick: function (info) {
-                    info.jsEvent.preventDefault(); // Prevent browser from following link
+                    info.jsEvent.preventDefault(); 
                     if (info.event.url) {
                         window.location.href = info.event.url;
                     }

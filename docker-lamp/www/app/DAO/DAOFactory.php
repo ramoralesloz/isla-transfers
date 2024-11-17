@@ -1,9 +1,9 @@
 <?php
 // DAOFactory.php - Fábrica para obtener instancias de DAOs
-require_once dirname(__DIR__) . '/dao/ClienteDAO.php';
-require_once dirname(__DIR__) . '/dao/HotelDAO.php';
-require_once dirname(__DIR__) . '/dao/ReservaDAO.php';
-require_once dirname(__DIR__) . '/dao/VehiculoDAO.php';
+require_once dirname(__DIR__) . '/DAO/ClienteDAO.php';
+require_once dirname(__DIR__) . '/DAO/HotelDAO.php';
+require_once dirname(__DIR__) . '/DAO/ReservaDAO.php';
+require_once dirname(__DIR__) . '/DAO/VehiculoDAO.php';
 
 class DAOFactory {
     private static $db;

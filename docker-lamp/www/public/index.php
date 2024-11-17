@@ -7,11 +7,15 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Manejo de sesiones
-ob_start(); // Iniciar output buffering
-session_start(); // Manejo de sesiones
+ob_start();
+session_start();
 
 // Definir la ruta base del proyecto
 define('BASE_PATH', dirname(__DIR__));
+//local
+define('BASE_URI', '/backendteam/AppPHP/public');
+//servidor
+//define('BASE_URI', '/~uocx1/backendteam/AppPHP/public');
 
 // Cargar configuraciones y controladores necesarios
 require_once BASE_PATH . '/config/Database.php';
@@ -21,17 +25,24 @@ require_once BASE_PATH . '/app/controllers/VehiculoController.php';
 require_once BASE_PATH . '/app/controllers/HotelController.php';
 
 // Obtener la URL solicitada
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
+//local
+$uri = str_replace(BASE_URI, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+//servidor
+//$uri = str_replace(BASE_URI, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-// Enrutamiento básico basado en la URL solicitada
-switch ($uri) {
-    case '/':
-        // Página principal de la aplicación (contenido estático para login y registro)
+//echo "<pre>";
+//var_dump($uri, bin2hex($uri));
+//echo "</pre>";
+//exit();
+$method = $_SERVER['REQUEST_METHOD'];
+// Enrutamiento de la aplicación
+switch (trim($uri, '/')) {
+    case '':
         include BASE_PATH . '/app/views/home_login.php';
         break;
+    
 
-        case '/reserva/crear':
+        case 'reserva/crear':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $controller = new ReservaController();
                 $controller->crearReserva($_POST);
@@ -40,7 +51,7 @@ switch ($uri) {
             }
         break;
 
-        case '/reserva/listar':
+        case 'reserva/listar':
             if (isset($_SESSION['cliente_id']) && $_SESSION['tipo_cliente'] === 'particular') {
                 $controller = new ReservaController();
                 $reservas = $controller->listarReservas(); // Almacenar las reservas devueltas por el método
@@ -51,7 +62,7 @@ switch ($uri) {
             }
             break;
 
-        case '/cliente/login':
+        case 'cliente/login':
             if ($method === 'POST') {
                 $controller = new ClienteController();
                 $controller->login($_POST);
@@ -60,7 +71,7 @@ switch ($uri) {
             }
         break;
 
-        case '/cliente/registrar':
+        case 'cliente/registrar':
             if ($method === 'POST') {
                 $controller = new ClienteController();
                 $controller->registrarCliente($_POST);
@@ -69,49 +80,69 @@ switch ($uri) {
             }
         break;
 
-        case '/cliente/perfil':
+        case 'cliente/perfil':
             if (isset($_SESSION['cliente_id'])) {
                 $controller = new ClienteController();
                 $cliente = $controller->obtenerClientePorId($_SESSION['cliente_id']);
                 include BASE_PATH . '/app/views/clientes/perfil.php';
             } else {
-                header('Location: /cliente/login');
+                header('Location: ' . BASE_URI . '/cliente/login');
                 exit();
             }
         break;
-        case '/cliente/modificar':
+        case 'cliente/modificar':
             if ($method === 'POST') {
                 if (isset($_SESSION['cliente_id'])) {
                     $controller = new ClienteController();
                     $controller->modificarCliente($_SESSION['cliente_id'], $_POST);
                 } else {
-                    header('Location: /cliente/login');
+                    header('Location: ' . BASE_URI . '/cliente/login');
                     exit();
                 }
             }
         break;    
 
-        case '/cliente/home':
+        case 'cliente/home':
             if (isset($_SESSION['tipo_cliente']) && $_SESSION['tipo_cliente'] === 'particular') {
                 include BASE_PATH . '/app/views/home_cliente.php';
             } else {
-                header('Location: /cliente/login');
+                header('Location: ' . BASE_URI . '/cliente/login');
             exit();
             }
         break;
+        case 'admin/home':
+            //var_dump($uri); // Mostrar la URI para depuración
+            //var_dump($_SESSION); // Mostrar la sesión para verificar valores
+        
+            if ($uri === '/admin/home') {
+               // echo "Entró en el caso /admin/home"; // Mensaje de depuración
+                if (isset($_SESSION['tipo_cliente']) && $_SESSION['tipo_cliente'] === 'administrador') {
+                    echo "Administrador autenticado"; // Depuración adicional
+                    include BASE_PATH . '/app/views/home_admin.php'; // Incluir la vista
+                    exit(); // Asegurar que no continúa el flujo
+                } else {
+                    echo "Redirigiendo a login por falta de permisos"; // Depuración
+                    header('Location: ' . BASE_URI . '/cliente/login');
+                    exit();
+                }
+            } else {
+                echo "La URI no coincide con /admin/home"; // Depuración de coincidencia
+            }
+            break;
+        
 
-        case '/vehiculo/listar':
+        case 'vehiculo/listar':
             if (isset($_SESSION['tipo_cliente']) && ($_SESSION['tipo_cliente'] === 'administrador' || $_SESSION['tipo_cliente'] === 'corporativo')) {
                 $controller = new VehiculoController();
                 $vehiculos = $controller->listarVehiculos();
                 include BASE_PATH . '/app/views/vehiculos/listar.php';
             } else {
-                header('Location: /cliente/login');
+                header('Location: ' . BASE_URI . '/cliente/login');
                 exit();
             }
         break;
 
-        case '/hotel/login':
+        case 'hotel/login':
             if ($method === 'POST') {
                 $controller = new HotelController();
                 $controller->login($_POST);
@@ -120,7 +151,7 @@ switch ($uri) {
             }
             break;
 
-        case '/hotel/registrar':
+        case 'hotel/registrar':
             if ($method === 'POST') {
                 $controller = new HotelController();
                 $controller->registrarHotel($_POST);
@@ -129,35 +160,32 @@ switch ($uri) {
             }
         break;
 
-        case '/hotel/home':
+        case 'hotel/home':
             if (isset($_SESSION['tipo_cliente']) && $_SESSION['tipo_cliente'] === 'corporativo') {
                 include BASE_PATH . '/app/views/home_hotel.php';
             } else {
-                header('Location: /hotel/login');
+                header('Location: ' . BASE_URI . '/hotel/login');
                 exit();
             }
-        break;
-
-        case '/admin/home':
-            if (isset($_SESSION['tipo_cliente']) && $_SESSION['tipo_cliente'] === 'administrador') {
-                include BASE_PATH . '/app/views/home_admin.php';
-            } else {
-                header('Location: /cliente/login');
-                exit();
-            }
-            break;
-        case '/reserva/eliminar':
+        break;        
+        case 'reserva/eliminar':
             if ($method === 'GET' && isset($_GET['id'])) {
                 $controller = new ReservaController();
-                $controller->eliminarReserva($_GET['id']); 
+                try {
+                    $controller->eliminarReserva($_GET['id']);
+                } catch (Exception $e) {
+                    // Mostrar mensaje de error si algo falla
+                    echo "<h1>Error: " . $e->getMessage() . "</h1>";
+                    exit();
+                }
             } else {
                 http_response_code(400);
                 echo "<h1>Solicitud inválida</h1>";
             }
-        break;
+            break;
 
     
-        case '/reserva/detalle':
+        case 'reserva/detalle':
                 if (isset($_GET['id'])) {
                     $controller = new ReservaController();
                     $controller->detalleReserva($_GET['id']);
@@ -167,16 +195,16 @@ switch ($uri) {
                 }
         break;
             
-        case '/reserva/calendario':
+        case 'reserva/calendario':
             if (isset($_SESSION['cliente_id']) && $_SESSION['tipo_cliente'] === 'administrador') {
                 $controller = new ReservaController();
                 $controller->listarCalendarioReservas();
             } else {
-                header('Location: /cliente/login');
+                header('Location: ' . BASE_URI . '/cliente/login');
                 exit();
             }
         break;
-        case '/reserva/modificar':
+        case 'reserva/modificar':
             if ($method === 'GET' && isset($_GET['id'])) {
                 // Si es una solicitud GET, mostrar el formulario de modificación
                 $controller = new ReservaController();
@@ -190,7 +218,7 @@ switch ($uri) {
                     if ($horasRestantes < 48) {
                         // Mostrar mensaje de error si no se puede modificar
                         $_SESSION['mensaje_error'] = "No se puede modificar la reserva con menos de 48 horas de anticipación.";
-                        header("Location: /reserva/listar");
+                        header('Location: ' . BASE_URI . '/reserva/listar');
                         exit();
                     } else {
                         include BASE_PATH . '/app/views/reservas/modificar_reserva.php';
@@ -210,15 +238,18 @@ switch ($uri) {
                 }
             }
         break;
-        case '/en_construccion':
+        case 'en_construccion':
             // Mostrar la página en construcción
             include BASE_PATH . '/app/views/en_construccion.php';
         break;
                     
         default:
-            http_response_code(404);
-            echo "<h1>Página no encontrada</h1>";
+        echo "Entró en el caso default";
+        var_dump($uri);
+        var_dump($_SESSION);
+        http_response_code(404);
+        echo "<h1>Página no encontrada</h1>";
         break;
 }
-ob_end_flush(); // Enviar todo el contenido del búfer y desactivarlo
-?>
+ob_end_flush();
+

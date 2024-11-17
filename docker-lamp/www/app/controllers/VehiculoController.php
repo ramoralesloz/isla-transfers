@@ -1,6 +1,6 @@
 <?php
 // VehiculoController.php - Controlador de Vehiculos
-require_once dirname(__DIR__) . '/dao/DAOFactory.php';
+require_once dirname(__DIR__) . '/DAO/DAOFactory.php';
 
 class VehiculoController {
     private $vehiculoDAO;

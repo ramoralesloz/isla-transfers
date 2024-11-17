@@ -68,7 +68,7 @@
     </header>
 
     <div class="registro-container">
-        <form action="/hotel/registrar" method="POST">
+        <form action="<?php echo BASE_URI; ?>/hotel/registrar" method="POST">
             <label for="id_zona">ID de Zona:</label>
             <input type="text" id="id_zona" name="id_zona" required><br>
 

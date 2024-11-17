@@ -58,7 +58,7 @@
     </header>
 
     <div class="registro-container">
-        <form action="/cliente/registrar" method="POST">
+        <form action="<?php echo BASE_URI; ?>/cliente/registrar" method="POST">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
 

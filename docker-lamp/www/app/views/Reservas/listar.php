@@ -103,21 +103,21 @@
                     <p><strong>Hotel:</strong> <?= htmlspecialchars($reserva['id_hotel']) ?></p>
                     <p><strong>Fecha de Reserva:</strong> <?= htmlspecialchars($reserva['fecha_reserva']) ?></p>
                     <p><strong>Fecha de Modificación:</strong> <?= htmlspecialchars($reserva['fecha_modificacion']) ?></p>
-                    <p><strong>Fecha de Entrada:</strong> <?= htmlspecialchars($reserva['fecha_entrada']) ?> <?= htmlspecialchars($reserva['hora_entrada']) ?></p>
-                    <p><strong>Origen del Vuelo:</strong> <?= htmlspecialchars($reserva['origen_vuelo_entrada']) ?></p>
-                    <p><strong>Fecha de Vuelo de Salida:</strong> <?= htmlspecialchars($reserva['fecha_vuelo_salida']) ?></p>
-                    <p><strong>Hora del Vuelo de Salida:</strong> <?= htmlspecialchars($reserva['hora_vuelo_salida']) ?></p>
-                    <p><strong>Hora de Recogida:</strong> <?= htmlspecialchars($reserva['hora_recogida']) ?></p>
+                    <p><strong>Fecha de Entrada:</strong> <?= htmlspecialchars($reserva['fecha_entrada']?? '') ?> <?= htmlspecialchars($reserva['hora_entrada'] ?? '') ?></p>
+                    <p><strong>Origen del Vuelo:</strong> <?= htmlspecialchars($reserva['origen_vuelo_entrada'] ?? '') ?></p>
+                    <p><strong>Fecha de Vuelo de Salida:</strong> <?= htmlspecialchars($reserva['fecha_vuelo_salida'] ?? '') ?></p>
+                    <p><strong>Hora del Vuelo de Salida:</strong> <?= htmlspecialchars($reserva['hora_vuelo_salida'] ?? '') ?></p>
+                    <p><strong>Hora de Recogida:</strong> <?= htmlspecialchars($reserva['hora_recogida'] ?? '') ?></p>
                     <p><strong>Número de Viajeros:</strong> <?= htmlspecialchars($reserva['num_viajeros']) ?></p>
                     <p><strong>Vehículo:</strong> <?= htmlspecialchars($reserva['id_vehiculo']) ?></p>
                     <p><strong>Número de Vuelo:</strong> <?= htmlspecialchars($reserva['numero_vuelo']) ?></p>
 
                     <!-- Botón de Cancelar con verificación de 48 horas -->
                     <?php if ($reserva['cancelable']): ?>
-                        <a href="/reserva/eliminar?id=<?= urlencode($reserva['id_reserva']) ?>">
+                        <a href="<?php echo BASE_URI; ?>/reserva/eliminar?id=<?= urlencode($reserva['id_reserva']) ?>">
                             <button>Cancelar Reserva</button>
                         </a>
-                        <a href="/reserva/modificar?id=<?= urlencode($reserva['id_reserva']) ?>">
+                        <a href="<?php echo BASE_URI; ?>/reserva/modificar?id=<?= urlencode($reserva['id_reserva']) ?>">
                             <button>Modificar Reserva</button>
                         </a>
                     <?php else: ?>
@@ -133,7 +133,7 @@
     </div>
 
     <div class="volver-menu">
-        <a href="/cliente/home">
+        <a href="<?php echo BASE_URI; ?>/cliente/home">
             Volver al Menú del Usuario
         </a>
     </div>

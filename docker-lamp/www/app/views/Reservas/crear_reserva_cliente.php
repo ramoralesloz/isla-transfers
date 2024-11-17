@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Reserva</title>
-    <link rel="stylesheet" href="/public/css/styles.css">
+    <form id="reservaForm" action="<?php echo BASE_URI; ?>/reserva/crear" method="POST">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -76,7 +76,7 @@
         </h1>
     </header>
 
-    <form id="reservaForm" action="/reserva/crear" method="POST">
+    <form id="reservaForm" action="<?php echo BASE_URI; ?>/reserva/crear" method="POST">
         <?php if ($_SESSION['tipo_cliente'] === 'administrador'): ?>
             <label for="email_cliente">Correo Electrónico del Cliente:</label>
             <input type="email" id="email_cliente" name="email_cliente" required>
@@ -134,9 +134,10 @@
         <button type="submit">Crear Reserva</button>
     </form>
     <div class="volver-menu">
-        <a href="<?php echo $_SESSION['tipo_cliente'] === 'administrador' ? '/reserva/calendario' : '/cliente/home'; ?>">
+        <a href="<?php echo $_SESSION['tipo_cliente'] === 'administrador' ? BASE_URI . '/reserva/calendario' : BASE_URI . '/cliente/home'; ?>">
             <button>Volver al Menú del Usuario</button>
         </a>
+
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

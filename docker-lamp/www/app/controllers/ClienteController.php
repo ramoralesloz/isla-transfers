@@ -1,6 +1,6 @@
 <?php
 // ClienteController.php - Controlador de Cliente
-require_once dirname(__DIR__) . '/dao/DAOFactory.php';
+require_once dirname(__DIR__) . '/DAO/DAOFactory.php';
 
 class ClienteController {
     private $clienteDAO;
@@ -16,16 +16,16 @@ class ClienteController {
             // Intentar registrar el cliente con todos los datos
             if ($this->clienteDAO->registrarCliente($datos)) { // Cambio aquí
                 $_SESSION['mensaje_exito'] = "Cliente registrado con éxito";
-                header("Location: /cliente/login");
+                header("Location:" . BASE_URI . "/cliente/login");
                 exit();
             } else {
                 $_SESSION['mensaje_error'] = "Error al registrar el cliente";
-                header("Location: /cliente/registrar");
+                header("Location:" . BASE_URI . "/cliente/registrar");
                 exit();
             }
         } else {
             $_SESSION['mensaje_error'] = "Error: Datos incompletos para registrar el cliente.";
-            header("Location: /cliente/registrar");
+            header("Location:" . BASE_URI . "/cliente/registrar");
             exit();
         }
     }
@@ -38,7 +38,10 @@ class ClienteController {
                 $_SESSION['cliente_id'] = 'admin';
                 $_SESSION['tipo_cliente'] = 'administrador';
                 $_SESSION['email_cliente'] = $datos['email']; // Guardar el email en la sesión
-                header("Location: /admin/home");
+                //echo "Sesión de Administrador configurada: <pre>";
+                //var_dump($_SESSION);
+                //echo "</pre>";
+                header("Location:" . BASE_URI . "/admin/home");
                 exit();
             }
     
@@ -50,7 +53,9 @@ class ClienteController {
                 $_SESSION['cliente_id'] = $cliente['id_viajero'];
                 $_SESSION['tipo_cliente'] = 'particular';
                 $_SESSION['email_cliente'] = $cliente['email']; // Guardar el email en la sesión
-    
+                //echo "Sesión de normal configurada: <pre>";
+                //var_dump($_SESSION);
+                //echo "</pre>";
                 // Verificar si el nombre existe en el resultado
                 if (isset($cliente['nombre'])) {
                     $_SESSION['nombre_cliente'] = $cliente['nombre'];
@@ -59,11 +64,11 @@ class ClienteController {
                     exit();
                 }
     
-                header("Location: /cliente/home");
+                header("Location:" . BASE_URI . "/cliente/home");
                 exit();
             } else {
                 echo "Credenciales incorrectas";
-                header("Location: /cliente/login");
+                header("Location: " . BASE_URI . "/cliente/login");
                 exit();
             }
         } else {
@@ -97,11 +102,11 @@ class ClienteController {
             } else {
                 $_SESSION['mensaje_error'] = "Error al actualizar los datos";
             }
-            header("Location: /cliente/perfil");
+            header("Location:" . BASE_URI . "/cliente/perfil");
             exit();
         } else {
             $_SESSION['mensaje_error'] = "Error: Datos incompletos para actualizar el cliente.";
-            header("Location: /cliente/perfil");
+            header("Location:" . BASE_URI . "/cliente/perfil");
             exit();
         }
     }

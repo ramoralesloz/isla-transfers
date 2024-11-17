@@ -66,7 +66,7 @@
         <h1>Modificar Reserva - <?= htmlspecialchars($reserva['localizador']) ?></h1>
     </header>
 
-    <form action="/reserva/modificar" method="POST">
+    <form action="<?php echo BASE_URI; ?>/reserva/modificar" method="POST">
         <input type="hidden" name="id_reserva" value="<?= htmlspecialchars($reserva['id_reserva']) ?>">
 
         <label for="fecha_entrada">Fecha de Entrada:</label>
@@ -97,7 +97,7 @@
     </form>
 
     <div class="volver-menu">
-        <a href="/cliente/home">
+        <a href="<?php echo BASE_URI; ?>/cliente/home">
             <button>Volver al Menú del Usuario</button>
         </a>
     </div>

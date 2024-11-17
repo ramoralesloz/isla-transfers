@@ -129,10 +129,31 @@ class ReservaDAO {
     
 
     public function eliminarReserva($id) {
+        // Verificar que el ID sea válido
+        if (empty($id) || !is_numeric($id)) {
+            throw new InvalidArgumentException("ID inválido proporcionado para eliminar la reserva.");
+        }
+    
+        // Preparar la consulta SQL
         $sql = "DELETE FROM transfer_reservas WHERE id_reserva = :id";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute(['id' => $id]);
+    
+        // Ejecutar y verificar resultados
+        if ($stmt->execute(['id' => $id])) {
+            if ($stmt->rowCount() > 0) {
+                // Confirmar que se eliminó un registro
+                return true;
+            } else {
+                // El registro no existe
+                throw new Exception("No se encontró ninguna reserva con ID: $id.");
+            }
+        } else {
+            // Depurar errores de SQL
+            $errorInfo = $stmt->errorInfo();
+            throw new Exception("Error al ejecutar la consulta: " . implode(', ', $errorInfo));
+        }
     }
+    
     public function obtenerTodasLasReservas() {
         $sql = "SELECT * FROM transfer_reservas";
         $stmt = $this->db->query($sql);

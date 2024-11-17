@@ -1,6 +1,6 @@
 <?php
 // ReservaController.php - Controlador de Reservas
-require_once dirname(__DIR__) . '/dao/DAOFactory.php';
+require_once dirname(__DIR__) . '/DAO/DAOFactory.php';
 
 class ReservaController {
     private $ReservaDAO;
@@ -18,9 +18,9 @@ class ReservaController {
         }
 
         if (isset($_SESSION['tipo_cliente']) && $_SESSION['tipo_cliente'] === 'administrador') {
-            header("Location: /reserva/calendario");
+            header("Location:" . BASE_URI . "/reserva/calendario");
         } else {
-            header("Location: /reserva/listar");
+            header("Location:" . BASE_URI . "/reserva/listar");
         }
         exit();
     }
@@ -47,22 +47,29 @@ class ReservaController {
         }
 
         if (isset($_SESSION['tipo_cliente']) && $_SESSION['tipo_cliente'] === 'administrador') {
-            header("Location: /reserva/calendario");
+            header("Location:" . BASE_URI . "/reserva/calendario");
         } else {
-            header("Location: /reserva/listar");
+            header("Location:" . BASE_URI . "/reserva/listar");
         }
         exit();
     }
 
     public function eliminarReserva($id) {
-        if ($this->ReservaDAO->eliminarReserva($id)) {
-            $_SESSION['mensaje_exito'] = "Reserva eliminada con éxito";
-        } else {
-            $_SESSION['mensaje_error'] = "Error al eliminar la reserva";
+        try {
+            if ($this->ReservaDAO->eliminarReserva($id)) {
+                $_SESSION['mensaje_exito'] = "Reserva eliminada con éxito.";
+            }
+        } catch (InvalidArgumentException $e) {
+            $_SESSION['mensaje_error'] = "Error de validación: " . $e->getMessage();
+        } catch (Exception $e) {
+            $_SESSION['mensaje_error'] = "Error al eliminar la reserva: " . $e->getMessage();
         }
-        header("Location: /reserva/listar");
+    
+        // Redirigir al listado de reservas, mostrando mensajes según el resultado
+        header("Location:" . BASE_URI . "/reserva/listar");
         exit();
     }
+    
 
     public function listarCalendarioReservas() {
         $reservas = $this->ReservaDAO->obtenerTodasLasReservas();
@@ -75,7 +82,7 @@ class ReservaController {
             include dirname(__DIR__, 2) . '/app/views/reservas/detalle_reserva.php';
         } else {
             $_SESSION['mensaje_error'] = "Reserva no encontrada.";
-            header("Location: /reserva/listar");
+            header("Location:" . BASE_URI . "/reserva/listar");
             exit();
         }
     }
