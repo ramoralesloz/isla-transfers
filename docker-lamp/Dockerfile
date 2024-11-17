@@ -6,6 +6,11 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Habilitar mod_rewrite de Apache (necesario para algunas aplicaciones PHP)
 RUN a2enmod rewrite
+RUN apt-get update && apt-get install -y \
+    unzip \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm composer-setup.php
 
 # Copiar todos los archivos de la app PHP al contenedor
 COPY ./www /var/www/html

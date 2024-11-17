@@ -1,15 +1,49 @@
-<?php
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador - Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo BASE_URI; ?>/public/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+@extends('layouts.app')
 
+@section('title', 'Administrador - Home')
+
+@section('content')
+    <header class="admin-header">
+        <h1>Bienvenido, Administrador</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ route('reserva.crear') }}"><i class="fas fa-tasks"></i> Crear Reservas</a></li>
+                <li><a href="{{ route('reserva.listar') }}"><i class="fas fa-calendar-alt"></i> Listado Reservas</a></li>
+                <li><a href="{{ route('vehiculo.listar') }}"><i class="fas fa-car"></i> Ver Vehículos</a></li>
+                <li><a href="{{ route('hotel.registrar') }}"><i class="fas fa-hotel"></i> Agregar Nuevo Hotel</a></li>
+                <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="Crear-reservas" class="admin-section">
+            <h2>Crear Reservas</h2>
+            <p>Desde aquí puedes gestionar todas las reservas realizadas, incluyendo su modificación y cancelación.</p>
+            <a href="{{ route('reserva.crear') }}" class="button"><i class="fas fa-tasks"></i> Crear Reservas</a>
+        </section>
+
+        <section id="listar-reservas" class="admin-section">
+            <h2>Listado Reservas</h2>
+            <p>El administrador podrá consultar una vista por semana, por día y por mes de los trayectos que han de realizar. Los trayectos se deben mostrar en formato calendario. Cuando se accede a un trayecto se muestra la información detallada con todos los campos entrados.</p>
+            <a href="{{ route('reserva.listar') }}" class="button"><i class="fas fa-calendar-alt"></i> Ver Calendario de Reservas</a>
+        </section>
+
+        <section id="ver-vehiculos" class="admin-section">
+            <h2>Agregar Vehículos</h2>
+            <p>Consulta y gestiona los vehículos disponibles para los transfers.</p>
+            <a href="{{ route('vehiculo.listar') }}" class="button"><i class="fas fa-car"></i> Agregar Vehículos</a>
+        </section>
+
+        <section id="agregar-hotel" class="admin-section">
+            <h2>Agregar Nuevo Hotel</h2>
+            <p>Agrega nuevos hoteles al sistema para que los clientes puedan reservar transfers desde o hacia ellos.</p>
+            <a href="{{ route('hotel.registrar') }}" class="button"><i class="fas fa-hotel"></i> Agregar Hotel</a>
+        </section>
+    </main>
+@endsection
+
+@section('styles')
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -19,7 +53,7 @@
             color: #333;
         }
 
-        header {
+        .admin-header {
             background-color: #007bff;
             color: #fff;
             padding: 1.5em;
@@ -64,26 +98,18 @@
             align-items: start;
         }
 
-        section {
+        .admin-section {
             background-color: #fff;
             padding: 2em;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        section h2 {
+        .admin-section h2 {
             font-size: 1.5em;
             margin-bottom: 1em;
             border-bottom: 2px solid #007bff;
             padding-bottom: 0.5em;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2em;
-            background-color: #007bff;
-            color: #fff;
-            margin-top: 2em;
         }
 
         .button {
@@ -101,49 +127,5 @@
             background-color: #0056b3;
         }
     </style>
-</head>
-<body>
-    <header>
-        <h1>Bienvenido, Administrador</h1>
-        <nav>
-            <ul>
-                <li><a href="<?php echo BASE_URI; ?>/reserva/crear"><i class="fas fa-tasks"></i> Crear Reservas</a></li>
-                <li><a href="<?php echo BASE_URI; ?>/reserva/calendario"><i class="fas fa-calendar-alt"></i> Listado Reservas</a></li>
-                <li><a href="<?php echo BASE_URI; ?>/en_construccion"><i class="fas fa-car"></i> Ver Vehículos</a></li>
-                <li><a href="<?php echo BASE_URI; ?>/en_construccion"><i class="fas fa-hotel"></i> Agregar Nuevo Hotel</a></li>
-                <li><a href="/"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+@endsection
 
-    <main>
-        <section id="Crear-reservas">
-            <h2>Crear Reservas</h2>
-            <p>Desde aquí puedes gestionar todas las reservas realizadas, incluyendo su modificación y cancelación.</p>
-            <a href="<?php echo BASE_URI; ?>/reserva/crear" class="button"><i class="fas fa-tasks"></i> Crear Reservas</a>
-        </section>
-
-        <section id="listar-reservas">
-            <h2>Listado Reservas</h2>
-            <p>El administrador podrá consultar una vista por semana, por día y por mes de los trayectos que han de realizar. Los trayectos se debe mostrar en formato calendario.  Cuando se accede a un trayecto se muestra la información detallada con todos los campos entrados.</p>
-            <a href="<?php echo BASE_URI; ?>/reserva/calendario" class="button"><i class="fas fa-calendar-alt"></i> Ver Calendario de Reservas</a>
-            </section>
-
-        <section id="ver-vehiculos">
-            <h2>Agregar Vehículos</h2>
-            <p>Consulta y gestiona los vehículos disponibles para los transfers.</p>
-            <a href="<?php echo BASE_URI; ?>/en_construccion" class="button"><i class="fas fa-car"></i> Agregar Vehículos</a>
-        </section>
-
-        <section id="agregar-hotel">
-            <h2>Agregar Nuevo Hotel</h2>
-            <p>Agrega nuevos hoteles al sistema para que los clientes puedan reservar transfers desde o hacia ellos.</p>
-            <a href="<?php echo BASE_URI; ?>/en_construccion" class="button"><i class="fas fa-hotel"></i> Agregar Hotel</a>
-        </section>
-    </main>
-
-    <footer>
-      <p>Isla transfers 2024</p>
-    </footer>
-</body>
-</html>
