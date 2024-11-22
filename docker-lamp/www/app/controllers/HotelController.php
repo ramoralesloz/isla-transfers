@@ -14,7 +14,7 @@ class HotelController {
         if (isset($datos['id_zona'], $datos['comision'], $datos['usuario'], $datos['password'])) {
             if ($this->hotelDAO->registrarHotel($datos)) {
                 $_SESSION['mensaje_exito'] = "Hotel registrado con éxito";
-                header("Location: /hotel/login");
+                header("Location: /hotel/registrar");
                 exit();
             } else {
                 $_SESSION['mensaje_error'] = "Error al registrar el hotel";

@@ -124,13 +124,15 @@ class HotelController extends Controller
     // Manejar el cierre de sesión del hotel
     public function logout(Request $request)
     {
-        Auth::logout();
-
+        Auth::guard('hotel')->logout(); // Cerrar la sesión del hotel
+    
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('hotel.login');
+    
+        // Redirigir a la vista welcome.blade.php
+        return redirect()->route('welcome');
     }
+    
     public function verComisionesAdmin()
     {
         // Obtener todos los hoteles con sus zonas asociadas

@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Isla Transfers')</title>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     @yield('styles')
 
     <style>
@@ -15,29 +12,31 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #f0f8ff;
             color: #333;
             line-height: 1.6;
         }
 
         header {
-            background-color: #007bff;
+            background: linear-gradient(45deg, #007bff, #0056b3);
             color: #fff;
-            padding: 1.5em;
+            padding: 2em;
             text-align: center;
             border-radius: 10px;
             margin: 0 1.5em 2em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
             margin: 0;
-            font-size: 2em;
+            font-size: 2.5em;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         nav {
             text-align: center;
-            margin-bottom: 1em;
+            margin-bottom: 1.5em;
         }
 
         nav ul {
@@ -45,6 +44,7 @@
             padding: 0;
             display: inline-flex;
             gap: 1em;
+            margin: 0;
         }
 
         nav ul li {
@@ -56,13 +56,14 @@
             text-decoration: none;
             font-weight: bold;
             padding: 0.5em 1em;
-            background-color: #0056b3;
+            background-color: #007bff;
             border-radius: 5px;
             transition: background-color 0.3s;
         }
 
         nav ul li a:hover {
-            background-color: #003f8a;
+            background-color: #0056b3;
+            color: #f0f8ff;
         }
 
         main {
@@ -79,14 +80,17 @@
             padding: 2em;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
         }
 
         footer {
             text-align: center;
-            padding: 1.5em;
-            background-color: #007bff;
+            padding: 2em;
+            background: linear-gradient(45deg, #0056b3, #007bff);
             color: #fff;
             margin-top: 2em;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .button {
@@ -97,11 +101,25 @@
             background-color: #007bff;
             text-decoration: none;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .button:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            padding: 0.5em 1em;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -110,12 +128,6 @@
         <h1>@yield('header_title', 'Isla Transfers')</h1>
     </header>
 
-    <nav>
-        <ul>
-
-        </ul>
-    </nav>
-
     <main>
         <div class="content-section">
             @yield('content')
@@ -123,13 +135,9 @@
     </main>
 
     <footer>
-        <p>Isla Transfers 2024</p>
+        <p>&copy; 2024 Isla Transfers - Todos los derechos reservados</p>
     </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
+    
     @yield('scripts')
 </body>
 </html>
-

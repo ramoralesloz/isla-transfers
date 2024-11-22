@@ -63,7 +63,7 @@ class ClienteController extends Controller
             $request->email === env('ADMIN_EMAIL') &&
             $request->password === env('ADMIN_PASSWORD')
         ) {
-            Auth::loginUsingId('admin', true);  // Login manual para administrador
+            Auth::loginUsingId(100); 
             session([
                 'cliente_id' => 'admin',
                 'tipo_cliente' => 'administrador',

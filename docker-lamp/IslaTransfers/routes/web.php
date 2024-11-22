@@ -21,18 +21,18 @@ use App\Http\Controllers\HotelController;
 Route::get('/', function () {
     return view('welcome'); // Página principal
 });
-
+Route::view('/', 'welcome')->name('welcome');
 // Redirección para la ruta `login`
 Route::get('/login', function () {
     return redirect()->route('cliente.login');
 })->name('login');
+Route::post('/logout', [HotelController::class, 'logout'])->name('logout');
 
 // Rutas relacionadas con el cliente (sin protección de middleware para login y registro)
 Route::get('/cliente/login', [ClienteController::class, 'mostrarLogin'])->name('cliente.login');
 Route::post('/cliente/login', [ClienteController::class, 'login']);
 Route::get('/cliente/registrar', [ClienteController::class, 'mostrarRegistro'])->name('cliente.registrar');
 Route::post('/cliente/registrar', [ClienteController::class, 'registrarCliente']);
-
 // Rutas protegidas para clientes autenticados
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', [ClienteController::class, 'homeAdmin'])->name('admin.home');
@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/hotel/comisiones', [HotelController::class, 'verComisionesAdmin'])->name('hotel.comisiones');
 
 });
+//Route::get('/admin/home', [ClienteController::class, 'homeAdmin'])->name('admin.home');
 // Rutas relacionadas con las reservas
 Route::get('/reserva/crear', [ReservaController::class, 'mostrarCrear'])->name('reserva.crear');
 Route::post('/reserva/guardar', [ReservaController::class, 'guardarReserva'])->name('reserva.guardar');
@@ -69,7 +70,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth.hotel')->group(function () {
     Route::get('hotel/home', [HotelController::class, 'home'])->name('hotel.home');
-    Route::post('hotel/logout', [HotelController::class, 'logout'])->name('hotel.logout');
+    Route::post('/hotel/logout', [HotelController::class, 'logout'])->name('logout');
     Route::get('/hotel/comision', [HotelController::class, 'verComisionesHotel'])->name('hotel.comision');
     Route::get('hotel/reserva/crear', [HotelController::class, 'mostrarCrearReserva'])->name('hotel.reserva.crear');
     Route::post('hotel/reserva/guardar', [HotelController::class, 'guardarReserva'])->name('hotel.reserva.guardar');

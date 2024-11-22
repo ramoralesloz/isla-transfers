@@ -11,7 +11,6 @@
                 <li><a href="{{ route('reserva.listar') }}"><i class="fas fa-calendar-alt"></i> Listado Reservas</a></li>
                 <li><a href="{{ route('vehiculo.listar') }}"><i class="fas fa-car"></i> Ver Vehículos</a></li>
                 <li><a href="{{ route('hotel.registrar') }}"><i class="fas fa-hotel"></i> Agregar Nuevo Hotel</a></li>
-                <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </nav>
     </header>

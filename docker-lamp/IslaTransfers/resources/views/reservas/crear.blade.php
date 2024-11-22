@@ -100,10 +100,15 @@
     </form>
 
     <div class="volver-menu mt-4">
-        <a href="{{ session('tipo_cliente') === 'administrador' ? route('reserva.listar') : route('cliente.home') }}" class="btn btn-secondary">
+    @if(session('tipo_cliente') === 'administrador')
+        <a href="{{ route('admin.home') }}" class="btn btn-secondary">
+            Volver al Menú del Administrador
+        </a>
+    @else
+        <a href="{{ route('cliente.home') }}" class="btn btn-secondary">
             Volver al Menú del Usuario
         </a>
-    </div>
+    @endif
 </div>
 @endsection
 
