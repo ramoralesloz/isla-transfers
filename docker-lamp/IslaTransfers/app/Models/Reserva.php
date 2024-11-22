@@ -31,4 +31,8 @@ class Reserva extends Model
         'num_viajeros',
         'id_vehiculo',
     ];
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class, 'id_hotel');
+    }
 }

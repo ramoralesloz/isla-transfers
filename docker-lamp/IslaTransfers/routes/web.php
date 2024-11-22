@@ -39,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cliente/home', [ClienteController::class, 'home'])->name('cliente.home');
     Route::get('/cliente/perfil', [ClienteController::class, 'mostrarPerfil'])->name('cliente.perfil');
     Route::post('/cliente/modificar', [ClienteController::class, 'modificarPerfil'])->name('cliente.modificar');
+    Route::get('/hotel/comisiones', [HotelController::class, 'verComisionesAdmin'])->name('hotel.comisiones');
+
 });
 // Rutas relacionadas con las reservas
 Route::get('/reserva/crear', [ReservaController::class, 'mostrarCrear'])->name('reserva.crear');
@@ -55,11 +57,24 @@ Route::get('/reserva/detalle/{id}', [ReservaController::class, 'detalleReserva']
 Route::get('/vehiculo/listar', [VehiculoController::class, 'listar'])->name('vehiculo.listar');
 
 // Rutas relacionadas con los hoteles
-Route::get('/hotel/login', [HotelController::class, 'mostrarLogin'])->name('hotel.login');
-Route::post('/hotel/login', [HotelController::class, 'login']);
-Route::get('/hotel/registrar', [HotelController::class, 'mostrarRegistro'])->name('hotel.registrar');
-Route::post('/hotel/registrar', [HotelController::class, 'registrarHotel']);
-Route::get('/hotel/home', [HotelController::class, 'home'])->name('hotel.home');
+Route::middleware('auth')->group(function () {
+    Route::get('hotel/registrar', [HotelController::class, 'showRegisterForm'])->name('hotel.registrar');
+    Route::post('hotel/registrar', [HotelController::class, 'registrarHotel'])->name('hotel.registrar.post');
+});
+
+//Route::middleware('guest:hotel')->group(function () {
+    Route::get('hotel/login', [HotelController::class, 'showLoginForm'])->name('hotel.login');
+    Route::post('hotel/login', [HotelController::class, 'login']);
+//});
+
+Route::middleware('auth.hotel')->group(function () {
+    Route::get('hotel/home', [HotelController::class, 'home'])->name('hotel.home');
+    Route::post('hotel/logout', [HotelController::class, 'logout'])->name('hotel.logout');
+    Route::get('/hotel/comision', [HotelController::class, 'verComisionesHotel'])->name('hotel.comision');
+    Route::get('hotel/reserva/crear', [HotelController::class, 'mostrarCrearReserva'])->name('hotel.reserva.crear');
+    Route::post('hotel/reserva/guardar', [HotelController::class, 'guardarReserva'])->name('hotel.reserva.guardar');
+});
+
 
 // Ruta para páginas en construcción
 Route::get('/en_construccion', function () {

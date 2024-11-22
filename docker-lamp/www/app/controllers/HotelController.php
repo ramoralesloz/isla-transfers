@@ -48,5 +48,20 @@ class HotelController {
             exit();
         }
     }
+    public function home()
+{
+    // Obtener el hotel autenticado
+    $hotel = Auth::guard('hotel')->user();
+
+    // Verificar si el hotel es nulo y si no redirigir
+    if (!$hotel) {
+        return redirect()->route('hotel.login')->withErrors(['usuario' => 'No se encontró el usuario autenticado.']);
+    }
+
+    // Pasar el hotel a la vista
+    return view('hotel.home', compact('hotel'));
 }
-?>
+}
+
+
+

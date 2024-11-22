@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['hotel_id']) || $_SESSION['tipo_cliente'] !== 'corporativo') {
+if (!isset($_SESSION['id_hotel']) || $_SESSION['tipo_cliente'] !== 'corporativo') {
     header('Location: /hotel/login');
     exit();
 }

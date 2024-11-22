@@ -35,12 +35,17 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'clientes',
     ],
+
+    'hotel' => [
+        'driver' => 'session',
+        'provider' => 'hoteles',
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -59,17 +64,20 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Cliente::class, // Cambiado a Cliente
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+'providers' => [
+    'clientes' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Cliente::class,
+        'table' => 'transfer_viajeros',
     ],
+
+    'hoteles' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Hotel::class,
+        'table' => 'tranfer_hotel',
+    ],
+],
+
 
     /*
     |--------------------------------------------------------------------------

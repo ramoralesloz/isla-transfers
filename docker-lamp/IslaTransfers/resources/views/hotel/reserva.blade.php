@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Crear Nueva Reserva')
+@section('title', 'Crear Reserva - Hotel')
 
 @section('content')
 <div class="container">
     <header>
-        <h1>Crear Nueva Reserva</h1>
+        <h1>Crear Nueva Reserva Hotel</h1>
     </header>
 
     @if(session('success'))
@@ -16,20 +16,8 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <form id="reservaForm" action="{{ route('reserva.guardar') }}" method="POST">
+    <form id="reservaHotelForm" action="{{ route('hotel.reserva.guardar') }}" method="POST">
         @csrf
-
-        @if(session('tipo_cliente') === 'administrador')
-            <div class="form-group">
-                <label for="email_cliente">Correo Electrónico del Cliente:</label>
-                <input type="email" id="email_cliente" name="email_cliente" class="form-control" value="{{ old('email_cliente') }}" required>
-            </div>
-        @else
-            <div class="form-group">
-                <label for="email_cliente">Correo Electrónico del Cliente:</label>
-                <input type="email" id="email_cliente" name="email_cliente" class="form-control" value="{{ session('email_cliente') }}" readonly>
-            </div>
-        @endif
 
         <div class="form-group">
             <label for="tipo_trayecto">Tipo de Trayecto:</label>
@@ -78,9 +66,10 @@
 
         <!-- Campos comunes -->
         <div class="form-group">
-            <label for="id_destino">Numero hotel:</label>
-            <input type="number" id="id_destino" name="id_destino" class="form-control" required>
+            <label for="email_cliente">Correo Electrónico del Cliente:</label>
+            <input type="email" id="email_cliente" name="email_cliente" class="form-control" value="{{ old('email_cliente') }}" required>
         </div>
+
         <div class="form-group">
             <label for="num_viajeros">Número de Viajeros:</label>
             <input type="number" id="num_viajeros" name="num_viajeros" class="form-control" required>
@@ -99,14 +88,14 @@
         <button type="submit" class="btn btn-primary">Crear Reserva</button>
     </form>
 
+
     <div class="volver-menu mt-4">
-        <a href="{{ session('tipo_cliente') === 'administrador' ? route('reserva.listar') : route('cliente.home') }}" class="btn btn-secondary">
-            Volver al Menú del Usuario
+        <a href="{{ route('hotel.home') }}" class="btn btn-secondary">
+            Volver al Menú del Hotel
         </a>
     </div>
 </div>
 @endsection
-
 @section('scripts')
     @parent
     <script>
