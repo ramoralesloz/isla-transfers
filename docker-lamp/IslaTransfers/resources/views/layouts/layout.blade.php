@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Isla Transfers')</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     @yield('styles')
 
     <style>
@@ -20,7 +21,7 @@
         header {
             background: linear-gradient(45deg, #007bff, #0056b3);
             color: #fff;
-            padding: 2em;
+            padding: 1.5em;
             text-align: center;
             border-radius: 10px;
             margin: 0 1.5em 2em;
@@ -58,12 +59,13 @@
             padding: 0.5em 1em;
             background-color: #007bff;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         nav ul li a:hover {
             background-color: #0056b3;
             color: #f0f8ff;
+            transform: scale(1.05);
         }
 
         main {
@@ -93,40 +95,46 @@
             box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .button {
-            display: inline-block;
+        footer p {
+            margin: 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .footer-icons {
             margin-top: 1em;
-            padding: 0.8em 1.5em;
+        }
+
+        .footer-icons a {
             color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
+            margin: 0 0.5em;
+            font-size: 1.5em;
+            transition: color 0.3s;
         }
 
-        .button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
+        .footer-icons a:hover {
+            color: #ffd700;
         }
-
-        .btn-custom {
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 5px;
-            padding: 0.5em 1em;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-custom:hover {
-            background-color: #0056b3;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+        
     </style>
 </head>
 <body>
     <header>
         <h1>@yield('header_title', 'Isla Transfers')</h1>
     </header>
+
+    <nav>
+        <ul>
+            @auth
+                <li><a href="{{ route('welcome') }}"><i class="fas fa-home"></i> Inicio</a></li>
+                </li>
+            @endauth
+            @guest
+                <li><a href="{{ route('cliente.login') }}"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a></li>
+                <li><a href="{{ route('cliente.registrar') }}"><i class="fas fa-user-plus"></i> Registrarse</a></li>
+            @endguest
+        </ul>
+    </nav>
 
     <main>
         <div class="content-section">
@@ -135,7 +143,13 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Isla Transfers - Todos los derechos reservados</p>
+        <p>&copy; PHP Laravel Isla Transfers</p>
+        <div class="footer-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
     </footer>
     
     @yield('scripts')
